@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin — Bolão Copa 2026</title>
+<style>
+  :root {
+    --green: #1a7a4a;
+    --green-light: #e8f5ee;
+    --green-dark: #0f4f2e;
+    --gold: #c9a84c;
+    --bg: #f5f7f5;
+    --white: #fff;
+    --text: #1a1a1a;
+    --text-muted: #5a6a5e;
+    --border: #d0ddd4;
+    --radius: 10px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); }
+  header {
+    background: var(--green-dark);
+    color: #fff;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  header h1 { font-size: 1.1rem; font-weight: 700; }
+  header span { font-size: .85rem; opacity: .7; }
+  main { max-width: 760px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+
+  .config-box {
+    background: #fff3cd;
+    border: 1.5px solid #ffc107;
+    border-radius: var(--radius);
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.5rem;
+    font-size: .9rem;
+    color: #6b4c00;
+  }
+  .config-box input {
+    width: 100%;
+    margin-top: 8px;
+    padding: 8px 12px;
+    border: 1.5px solid #e0c060;
+    border-radius: 8px;
+    font-size: .9rem;
+    font-family: inherit;
+    outline: none;
+    background: #fff;
+  }
+  .config-box input:focus { border-color: var(--green); }
+
+  .section-title {
+    font-size: .9rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    margin: 1.5rem 0 .7rem;
+    padding-bottom: .4rem;
+    border-bottom: 2px solid var(--green-light);
+  }
+
+  .jogo-row {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: .8rem 1rem;
+    margin-bottom: .5rem;
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+    flex-wrap: wrap;
+  }
+  .jogo-row.done { border-color: var(--green); background: var(--green-light); }
+
+  .jogo-hora { font-size: .75rem; color: var(--text-muted); min-width: 40px; }
+  .jogo-label { flex: 1; font-size: .9rem; font-weight: 600; min-width: 180px; }
+  .jogo-label .flags { font-size: 1rem; }
+
+  .score-wrap { display: flex; align-items: center; gap: 6px; }
+  .score-input {
+    width: 44px; height: 36px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 1rem; font-weight: 700;
+    text-align: center;
+    outline: none;
+    font-family: inherit;
+    background: var(--white);
+  }
+  .score-input:focus { border-color: var(--green); }
+  .score-sep { font-weight: 700; color: var(--text-muted); }
+
+  .btn-save {
+    padding: 7px 14px;
+    background: var(--green);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: .82rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background .15s;
+    white-space: nowrap;
+  }
+  .btn-save:hover { background: var(--green-dark); }
+  .btn-save.saved { background: var(--gold); }
+
+  .stats-bar {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.2rem;
+    border: 1px solid var(--border);
+  }
+  .stat { text-align: center; }
+  .stat-n { font-size: 1.4rem; font-weight: 700; color: var(--green-dark); }
+  .stat-l { font-size: .75rem; color: var(--text-muted); text-transform: uppercase; }
+
+  .toast {
+    position: fixed; bottom: 20px; left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--green-dark); color: #fff;
+    padding: 10px 22px; border-radius: 20px;
+    font-size: .9rem; font-weight: 500; z-index: 999;
+    transition: transform .3s ease; white-space: nowrap;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  @media (max-width: 500px) {
+    .jogo-row { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>⚙️ Admin — Bolão Copa 2026</h1>
+    <span>Insira os resultados reais dos jogos</span>
+  </div>
+</header>
+
+<main>
+  <div class="config-box">
+    <strong>URL do Google Apps Script:</strong>
+    <input type="text" id="api-url-input" placeholder="https://script.google.com/macros/s/..." />
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat"><div class="stat-n" id="stat-total">–</div><div class="stat-l">Jogos</div></div>
+    <div class="stat"><div class="stat-n" id="stat-done">–</div><div class="stat-l">Concluídos</div></div>
+    <div class="stat"><div class="stat-n" id="stat-pend">–</div><div class="stat-l">Pendentes</div></div>
+  </div>
+
+  <div id="jogos-container"></div>
+</main>
+
+<div id="toast" class="toast"></div>
+
+<script>
+const JOGOS = [
+  {id:"g001",data:"13 Jun",hora:"16:00",t1:"QAT",f1:"🇶🇦",t2:"SUI",f2:"🇨🇭"},
+  {id:"g002",data:"13 Jun",hora:"19:00",t1:"BRA",f1:"🇧🇷",t2:"MAR",f2:"🇲🇦"},
+  {id:"g003",data:"13 Jun",hora:"22:00",t1:"HAI",f1:"🇭🇹",t2:"ESC",f2:"🏴󠁧󠁢󠁳󠁣󠁴󠁿"},
+  {id:"g004",data:"14 Jun",hora:"01:00",t1:"AUS",f1:"🇦🇺",t2:"TUR",f2:"🇹🇷"},
+  {id:"g005",data:"14 Jun",hora:"14:00",t1:"ALE",f1:"🇩🇪",t2:"CUR",f2:"🇨🇼"},
+  {id:"g006",data:"14 Jun",hora:"17:00",t1:"NED",f1:"🇳🇱",t2:"JAP",f2:"🇯🇵"},
+  {id:"g007",data:"14 Jun",hora:"20:00",t1:"CIV",f1:"🇨🇮",t2:"ECU",f2:"🇪🇨"},
+  {id:"g008",data:"14 Jun",hora:"23:00",t1:"SUE",f1:"🇸🇪",t2:"TUN",f2:"🇹🇳"},
+  {id:"g009",data:"15 Jun",hora:"13:00",t1:"ESP",f1:"🇪🇸",t2:"CPV",f2:"🇨🇻"},
+  {id:"g010",data:"15 Jun",hora:"16:00",t1:"BEL",f1:"🇧🇪",t2:"EGP",f2:"🇪🇬"},
+  {id:"g011",data:"15 Jun",hora:"19:00",t1:"KSA",f1:"🇸🇦",t2:"URU",f2:"🇺🇾"},
+  {id:"g012",data:"15 Jun",hora:"22:00",t1:"IRN",f1:"🇮🇷",t2:"NZL",f2:"🇳🇿"},
+  {id:"g013",data:"16 Jun",hora:"16:00",t1:"FRA",f1:"🇫🇷",t2:"SEN",f2:"🇸🇳"},
+  {id:"g014",data:"16 Jun",hora:"19:00",t1:"IRQ",f1:"🇮🇶",t2:"NOR",f2:"🇳🇴"},
+  {id:"g015",data:"16 Jun",hora:"22:00",t1:"ARG",f1:"🇦🇷",t2:"ALG",f2:"🇩🇿"},
+  {id:"g016",data:"17 Jun",hora:"01:00",t1:"AUS",f1:"🇦🇺",t2:"JOR",f2:"🇯🇴"},
+  {id:"g017",data:"17 Jun",hora:"14:00",t1:"POR",f1:"🇵🇹",t2:"COD",f2:"🇨🇩"},
+  {id:"g018",data:"17 Jun",hora:"17:00",t1:"ING",f1:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",t2:"CRO",f2:"🇭🇷"},
+  {id:"g019",data:"17 Jun",hora:"20:00",t1:"GHA",f1:"🇬🇭",t2:"PAN",f2:"🇵🇦"},
+  {id:"g020",data:"17 Jun",hora:"23:00",t1:"UZB",f1:"🇺🇿",t2:"COL",f2:"🇨🇴"},
+  {id:"g021",data:"18 Jun",hora:"13:00",t1:"CZE",f1:"🇨🇿",t2:"SUD",f2:"🇸🇩"},
+  {id:"g022",data:"18 Jun",hora:"16:00",t1:"SUI",f1:"🇨🇭",t2:"BIH",f2:"🇧🇦"},
+  {id:"g023",data:"18 Jun",hora:"19:00",t1:"CAN",f1:"🇨🇦",t2:"QAT",f2:"🇶🇦"},
+  {id:"g024",data:"18 Jun",hora:"22:00",t1:"MEX",f1:"🇲🇽",t2:"KOR",f2:"🇰🇷"},
+  {id:"g025",data:"19 Jun",hora:"16:00",t1:"USA",f1:"🇺🇸",t2:"AUS",f2:"🇦🇺"},
+  {id:"g026",data:"19 Jun",hora:"19:00",t1:"ESC",f1:"🏴󠁧󠁢󠁳󠁣󠁴󠁿",t2:"MAR",f2:"🇲🇦"},
+  {id:"g027",data:"19 Jun",hora:"21:30",t1:"BRA",f1:"🇧🇷",t2:"HAI",f2:"🇭🇹"},
+  {id:"g028",data:"19 Jun",hora:"00:00",t1:"TUR",f1:"🇹🇷",t2:"PAR",f2:"🇵🇾"},
+  {id:"g029",data:"20 Jun",hora:"14:00",t1:"NED",f1:"🇳🇱",t2:"SUE",f2:"🇸🇪"},
+  {id:"g030",data:"20 Jun",hora:"17:00",t1:"ALE",f1:"🇩🇪",t2:"CIV",f2:"🇨🇮"},
+  {id:"g031",data:"20 Jun",hora:"21:00",t1:"ECU",f1:"🇪🇨",t2:"CUR",f2:"🇨🇼"},
+  {id:"g032",data:"21 Jun",hora:"01:00",t1:"TUN",f1:"🇹🇳",t2:"JAP",f2:"🇯🇵"},
+  {id:"g033",data:"21 Jun",hora:"13:00",t1:"ESP",f1:"🇪🇸",t2:"KSA",f2:"🇸🇦"},
+  {id:"g034",data:"21 Jun",hora:"16:00",t1:"BEL",f1:"🇧🇪",t2:"IRN",f2:"🇮🇷"},
+  {id:"g035",data:"21 Jun",hora:"19:00",t1:"URU",f1:"🇺🇾",t2:"CPV",f2:"🇨🇻"},
+  {id:"g036",data:"21 Jun",hora:"22:00",t1:"NZL",f1:"🇳🇿",t2:"EGP",f2:"🇪🇬"},
+  {id:"g037",data:"22 Jun",hora:"14:00",t1:"ARG",f1:"🇦🇷",t2:"AUS",f2:"🇦🇺"},
+  {id:"g038",data:"22 Jun",hora:"18:00",t1:"FRA",f1:"🇫🇷",t2:"IRQ",f2:"🇮🇶"},
+  {id:"g039",data:"22 Jun",hora:"21:00",t1:"NOR",f1:"🇳🇴",t2:"SEN",f2:"🇸🇳"},
+  {id:"g040",data:"22 Jun",hora:"00:00",t1:"JOR",f1:"🇯🇴",t2:"ALG",f2:"🇩🇿"},
+  {id:"g041",data:"23 Jun",hora:"14:00",t1:"POR",f1:"🇵🇹",t2:"UZB",f2:"🇺🇿"},
+  {id:"g042",data:"23 Jun",hora:"17:00",t1:"ING",f1:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",t2:"GHA",f2:"🇬🇭"},
+  {id:"g043",data:"23 Jun",hora:"20:00",t1:"PAN",f1:"🇵🇦",t2:"CRO",f2:"🇭🇷"},
+  {id:"g044",data:"23 Jun",hora:"23:00",t1:"COL",f1:"🇨🇴",t2:"COD",f2:"🇨🇩"},
+  {id:"g045",data:"24 Jun",hora:"16:00",t1:"SUI",f1:"🇨🇭",t2:"CAN",f2:"🇨🇦"},
+  {id:"g046",data:"24 Jun",hora:"16:00",t1:"BIH",f1:"🇧🇦",t2:"QAT",f2:"🇶🇦"},
+  {id:"g047",data:"24 Jun",hora:"19:00",t1:"MAR",f1:"🇲🇦",t2:"HAI",f2:"🇭🇹"},
+  {id:"g048",data:"24 Jun",hora:"19:00",t1:"ESC",f1:"🏴󠁧󠁢󠁳󠁣󠁴󠁿",t2:"BRA",f2:"🇧🇷"},
+  {id:"g049",data:"24 Jun",hora:"22:00",t1:"SUD",f1:"🇸🇩",t2:"KOR",f2:"🇰🇷"},
+  {id:"g050",data:"24 Jun",hora:"22:00",t1:"CZE",f1:"🇨🇿",t2:"MEX",f2:"🇲🇽"},
+  {id:"g051",data:"25 Jun",hora:"17:00",t1:"CUR",f1:"🇨🇼",t2:"CIV",f2:"🇨🇮"},
+  {id:"g052",data:"25 Jun",hora:"17:00",t1:"ECU",f1:"🇪🇨",t2:"ALE",f2:"🇩🇪"},
+  {id:"g053",data:"25 Jun",hora:"20:00",t1:"TUN",f1:"🇹🇳",t2:"NED",f2:"🇳🇱"},
+  {id:"g054",data:"25 Jun",hora:"20:00",t1:"JAP",f1:"🇯🇵",t2:"SUE",f2:"🇸🇪"},
+  {id:"g055",data:"25 Jun",hora:"23:00",t1:"TUR",f1:"🇹🇷",t2:"USA",f2:"🇺🇸"},
+  {id:"g056",data:"25 Jun",hora:"23:00",t1:"PAR",f1:"🇵🇾",t2:"AUS",f2:"🇦🇺"},
+  {id:"g057",data:"26 Jun",hora:"16:00",t1:"NOR",f1:"🇳🇴",t2:"FRA",f2:"🇫🇷"},
+  {id:"g058",data:"26 Jun",hora:"16:00",t1:"SEN",f1:"🇸🇳",t2:"IRQ",f2:"🇮🇶"},
+  {id:"g059",data:"26 Jun",hora:"21:00",t1:"CPV",f1:"🇨🇻",t2:"KSA",f2:"🇸🇦"},
+  {id:"g060",data:"26 Jun",hora:"21:00",t1:"URU",f1:"🇺🇾",t2:"ESP",f2:"🇪🇸"},
+  {id:"g061",data:"26 Jun",hora:"00:00",t1:"EGP",f1:"🇪🇬",t2:"IRN",f2:"🇮🇷"},
+  {id:"g062",data:"26 Jun",hora:"00:00",t1:"NZL",f1:"🇳🇿",t2:"BEL",f2:"🇧🇪"},
+  {id:"g063",data:"27 Jun",hora:"18:00",t1:"PAN",f1:"🇵🇦",t2:"ING",f2:"🏴󠁧󠁢󠁥󠁮󠁧󠁿"},
+  {id:"g064",data:"27 Jun",hora:"18:00",t1:"CRO",f1:"🇭🇷",t2:"GHA",f2:"🇬🇭"},
+  {id:"g065",data:"27 Jun",hora:"20:30",t1:"COL",f1:"🇨🇴",t2:"POR",f2:"🇵🇹"},
+  {id:"g066",data:"27 Jun",hora:"20:30",t1:"COD",f1:"🇨🇩",t2:"UZB",f2:"🇺🇿"},
+  {id:"g067",data:"27 Jun",hora:"23:00",t1:"ALG",f1:"🇩🇿",t2:"AUS",f2:"🇦🇺"},
+  {id:"g068",data:"27 Jun",hora:"23:00",t1:"JOR",f1:"🇯🇴",t2:"ARG",f2:"🇦🇷"},
+];
+
+let API_URL = "https://script.google.com/macros/s/AKfycbxqF4A9GTgx0fqEP2RVHbxfR2XiB_x0mYXkgKZpQZjZgenc4YVAZ9c_UdIv0wSPhAZG/exec";
+let resultados = {};
+
+document.getElementById("api-url-input").value = API_URL;
+document.getElementById("api-url-input").addEventListener("change", (e) => {
+  API_URL = e.target.value.trim();
+  localStorage.setItem("bolao_admin_url", API_URL);
+  carregarResultados();
+});
+
+async function apiPost(action, params = {}) {
+  if (!API_URL) return null;
+  try {
+    const r = await fetch(API_URL, {
+      method: "POST",
+      body: JSON.stringify({ action, ...params }),
+    });
+    return await r.json();
+  } catch { return null; }
+}
+
+async function apiGet(action, params = {}) {
+  if (!API_URL) return null;
+  try {
+    const url = new URL(API_URL);
+    url.searchParams.set("action", action);
+    Object.entries(params).forEach(([k,v]) => url.searchParams.set(k,v));
+    const r = await fetch(url.toString());
+    return await r.json();
+  } catch { return null; }
+}
+
+async function carregarResultados() {
+  const res = await apiGet("getResultados");
+  if (res && res.ok) resultados = res.resultados || {};
+  renderJogos();
+  atualizarStats();
+}
+
+function atualizarStats() {
+  const done = Object.keys(resultados).length;
+  document.getElementById("stat-total").textContent = JOGOS.length;
+  document.getElementById("stat-done").textContent = done;
+  document.getElementById("stat-pend").textContent = JOGOS.length - done;
+}
+
+function renderJogos() {
+  const container = document.getElementById("jogos-container");
+  let html = "";
+  let currentDate = "";
+
+  JOGOS.forEach((j) => {
+    if (j.data !== currentDate) {
+      currentDate = j.data;
+      html += `<div class="section-title">${j.data}</div>`;
+    }
+
+    const res = resultados[j.id];
+    const v1 = res !== undefined ? res.gols1 : "";
+    const v2 = res !== undefined ? res.gols2 : "";
+    const done = res !== undefined;
+
+    html += `
+      <div class="jogo-row ${done ? 'done' : ''}" id="row-${j.id}">
+        <div class="jogo-hora">${j.hora}</div>
+        <div class="jogo-label">
+          <span class="flags">${j.f1}</span> ${j.t1} × ${j.t2} <span class="flags">${j.f2}</span>
+        </div>
+        <div class="score-wrap">
+          <input class="score-input" type="number" min="0" max="20"
+            id="r1-${j.id}" value="${v1}" placeholder="–" />
+          <span class="score-sep">×</span>
+          <input class="score-input" type="number" min="0" max="20"
+            id="r2-${j.id}" value="${v2}" placeholder="–" />
+          <button class="btn-save ${done ? 'saved' : ''}" id="sbtn-${j.id}" onclick="salvarResultado('${j.id}')">
+            ${done ? "✓ Salvo" : "Salvar"}
+          </button>
+        </div>
+      </div>`;
+  });
+
+  container.innerHTML = html;
+}
+
+async function salvarResultado(id) {
+  const g1 = document.getElementById("r1-" + id).value;
+  const g2 = document.getElementById("r2-" + id).value;
+  if (g1 === "" || g2 === "") { toast("Preencha os dois placares!"); return; }
+
+  const btn = document.getElementById("sbtn-" + id);
+  btn.textContent = "...";
+
+  const res = await apiPost("salvarResultado", {
+    jogo_id: id, gols1: Number(g1), gols2: Number(g2)
+  });
+
+  if (res && res.ok) {
+    resultados[id] = { gols1: Number(g1), gols2: Number(g2) };
+    btn.textContent = "✓ Salvo";
+    btn.classList.add("saved");
+    document.getElementById("row-" + id).classList.add("done");
+    atualizarStats();
+    toast("Resultado salvo! ✅");
+  } else {
+    btn.textContent = "Salvar";
+    toast("Erro ao salvar. Verifique a URL.");
+  }
+}
+
+let toastTimer;
+function toast(msg) {
+  const el = document.getElementById("toast");
+  el.textContent = msg;
+  el.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove("show"), 2500);
+}
+
+window.onload = () => {
+  if (API_URL) carregarResultados();
+  else renderJogos();
+  atualizarStats();
+};
+</script>
+</body>
+</html>
