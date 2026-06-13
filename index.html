@@ -297,7 +297,7 @@ function dirty(id){
 function saveAp(id){
   var g1 = document.getElementById("i1-"+id).value;
   var g2 = document.getElementById("i2-"+id).value;
-  if(g1===""||g2====""){ toast("Preencha os dois placares!",1); return; }
+  if(g1===""||g2===""){ toast("Preencha os dois placares!",1); return; }
   var j = JOGOS.filter(function(x){return x.id===id;})[0];
   var b = document.getElementById("b-"+id);
   b.textContent="...";
