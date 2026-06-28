@@ -1,4 +1,4 @@
-<!DOCTYPE html><!-- v3 -->
+<!DOCTYPE html><!-- v4 -->
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8" />
@@ -25,6 +25,7 @@ main{max-width:860px;margin:0 auto;padding:1.5rem 1rem 3rem}
 .btn-enter{width:100%;padding:11px;background:var(--green);color:#fff;border:none;border-radius:var(--r);font-size:1rem;font-weight:600;cursor:pointer;font-family:inherit}
 .btn-enter:hover{background:var(--green-dark)}
 .sec{font-size:.85rem;font-weight:700;color:var(--green-dark);text-transform:uppercase;letter-spacing:.5px;margin:1.4rem 0 .7rem;padding-bottom:.4rem;border-bottom:2px solid var(--green-light)}
+.sec.fase{font-size:1rem;background:var(--green-dark);color:#fff;padding:.6rem 1rem;border-radius:var(--r);border:none;margin-top:2rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none}.sec.fase:hover{background:#0a3d20}.fase-content.collapsed{display:none}
 .pts-bar{background:var(--gold-light);border:1px solid #e8d8a0;border-radius:var(--r);padding:.85rem 1rem;margin-bottom:1rem;display:flex;gap:1.2rem;flex-wrap:wrap;font-size:.83rem;color:#6b5320}
 .pts-bar strong{color:#3d2f0a}
 .card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);padding:.9rem 1rem;margin-bottom:.5rem}
@@ -49,7 +50,6 @@ main{max-width:860px;margin:0 auto;padding:1.5rem 1rem 3rem}
 .ci::placeholder{color:#bbb}
 .btn-ok{padding:5px 12px;background:none;border:1px solid var(--border);border-radius:20px;font-size:.78rem;color:var(--muted);cursor:pointer;font-family:inherit}
 .btn-ok:hover{border-color:var(--green);color:var(--green)}
-.btn-ok.saved{border-color:var(--gold);color:var(--gold)}
 .ctxt{flex:1;font-size:.8rem;color:var(--muted);font-style:italic;padding:4px 6px}
 .ranking-table{width:100%;border-collapse:collapse;background:var(--white);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow)}
 .ranking-table th{background:var(--green-dark);color:rgba(255,255,255,.85);font-size:.78rem;text-transform:uppercase;letter-spacing:.4px;padding:10px 14px;text-align:left;font-weight:600}
@@ -118,74 +118,92 @@ main{max-width:860px;margin:0 auto;padding:1.5rem 1rem 3rem}
 var API = "https://script.google.com/macros/s/AKfycbxqF4A9GTgx0fqEP2RVHbxfR2XiB_x0mYXkgKZpQZjZgenc4YVAZ9c_UdIv0wSPhAZG/exec";
 
 var JOGOS = [
-  {id:"g001",d:"13 Jun",h:"16:00",t1:"QAT",f1:"🇶🇦",t2:"SUI",f2:"🇨🇭"},
-  {id:"g002",d:"13 Jun",h:"19:00",t1:"BRA",f1:"🇧🇷",t2:"MAR",f2:"🇲🇦"},
-  {id:"g003",d:"13 Jun",h:"22:00",t1:"HAI",f1:"🇭🇹",t2:"ESC",f2:"ESC"},
-  {id:"g004",d:"14 Jun",h:"01:00",t1:"AUS",f1:"🇦🇺",t2:"TUR",f2:"🇹🇷"},
-  {id:"g005",d:"14 Jun",h:"14:00",t1:"ALE",f1:"🇩🇪",t2:"CUR",f2:"🇨🇼"},
-  {id:"g006",d:"14 Jun",h:"17:00",t1:"NED",f1:"🇳🇱",t2:"JAP",f2:"🇯🇵"},
-  {id:"g007",d:"14 Jun",h:"20:00",t1:"CIV",f1:"🇨🇮",t2:"ECU",f2:"🇪🇨"},
-  {id:"g008",d:"14 Jun",h:"23:00",t1:"SUE",f1:"🇸🇪",t2:"TUN",f2:"🇹🇳"},
-  {id:"g009",d:"15 Jun",h:"13:00",t1:"ESP",f1:"🇪🇸",t2:"CPV",f2:"🇨🇻"},
-  {id:"g010",d:"15 Jun",h:"16:00",t1:"BEL",f1:"🇧🇪",t2:"EGP",f2:"🇪🇬"},
-  {id:"g011",d:"15 Jun",h:"19:00",t1:"KSA",f1:"🇸🇦",t2:"URU",f2:"🇺🇾"},
-  {id:"g012",d:"15 Jun",h:"22:00",t1:"IRN",f1:"🇮🇷",t2:"NZL",f2:"🇳🇿"},
-  {id:"g013",d:"16 Jun",h:"16:00",t1:"FRA",f1:"🇫🇷",t2:"SEN",f2:"🇸🇳"},
-  {id:"g014",d:"16 Jun",h:"19:00",t1:"IRQ",f1:"🇮🇶",t2:"NOR",f2:"🇳🇴"},
-  {id:"g015",d:"16 Jun",h:"22:00",t1:"ARG",f1:"🇦🇷",t2:"ALG",f2:"🇩🇿"},
-  {id:"g016",d:"17 Jun",h:"01:00",t1:"AUS",f1:"🇦🇺",t2:"JOR",f2:"🇯🇴"},
-  {id:"g017",d:"17 Jun",h:"14:00",t1:"POR",f1:"🇵🇹",t2:"COD",f2:"🇨🇩"},
-  {id:"g018",d:"17 Jun",h:"17:00",t1:"ING",f1:"ING",t2:"CRO",f2:"🇭🇷"},
-  {id:"g019",d:"17 Jun",h:"20:00",t1:"GHA",f1:"🇬🇭",t2:"PAN",f2:"🇵🇦"},
-  {id:"g020",d:"17 Jun",h:"23:00",t1:"UZB",f1:"🇺🇿",t2:"COL",f2:"🇨🇴"},
-  {id:"g021",d:"18 Jun",h:"13:00",t1:"CZE",f1:"🇨🇿",t2:"SUD",f2:"🇸🇩"},
-  {id:"g022",d:"18 Jun",h:"16:00",t1:"SUI",f1:"🇨🇭",t2:"BIH",f2:"🇧🇦"},
-  {id:"g023",d:"18 Jun",h:"19:00",t1:"CAN",f1:"🇨🇦",t2:"QAT",f2:"🇶🇦"},
-  {id:"g024",d:"18 Jun",h:"22:00",t1:"MEX",f1:"🇲🇽",t2:"KOR",f2:"🇰🇷"},
-  {id:"g025",d:"19 Jun",h:"16:00",t1:"USA",f1:"🇺🇸",t2:"AUS",f2:"🇦🇺"},
-  {id:"g026",d:"19 Jun",h:"19:00",t1:"ESC",f1:"ESC",t2:"MAR",f2:"🇲🇦"},
-  {id:"g027",d:"19 Jun",h:"21:30",t1:"BRA",f1:"🇧🇷",t2:"HAI",f2:"🇭🇹"},
-  {id:"g028",d:"19 Jun",h:"00:00",t1:"TUR",f1:"🇹🇷",t2:"PAR",f2:"🇵🇾"},
-  {id:"g029",d:"20 Jun",h:"14:00",t1:"NED",f1:"🇳🇱",t2:"SUE",f2:"🇸🇪"},
-  {id:"g030",d:"20 Jun",h:"17:00",t1:"ALE",f1:"🇩🇪",t2:"CIV",f2:"🇨🇮"},
-  {id:"g031",d:"20 Jun",h:"21:00",t1:"ECU",f1:"🇪🇨",t2:"CUR",f2:"🇨🇼"},
-  {id:"g032",d:"21 Jun",h:"01:00",t1:"TUN",f1:"🇹🇳",t2:"JAP",f2:"🇯🇵"},
-  {id:"g033",d:"21 Jun",h:"13:00",t1:"ESP",f1:"🇪🇸",t2:"KSA",f2:"🇸🇦"},
-  {id:"g034",d:"21 Jun",h:"16:00",t1:"BEL",f1:"🇧🇪",t2:"IRN",f2:"🇮🇷"},
-  {id:"g035",d:"21 Jun",h:"19:00",t1:"URU",f1:"🇺🇾",t2:"CPV",f2:"🇨🇻"},
-  {id:"g036",d:"21 Jun",h:"22:00",t1:"NZL",f1:"🇳🇿",t2:"EGP",f2:"🇪🇬"},
-  {id:"g037",d:"22 Jun",h:"14:00",t1:"ARG",f1:"🇦🇷",t2:"AUS",f2:"🇦🇺"},
-  {id:"g038",d:"22 Jun",h:"18:00",t1:"FRA",f1:"🇫🇷",t2:"IRQ",f2:"🇮🇶"},
-  {id:"g039",d:"22 Jun",h:"21:00",t1:"NOR",f1:"🇳🇴",t2:"SEN",f2:"🇸🇳"},
-  {id:"g040",d:"22 Jun",h:"00:00",t1:"JOR",f1:"🇯🇴",t2:"ALG",f2:"🇩🇿"},
-  {id:"g041",d:"23 Jun",h:"14:00",t1:"POR",f1:"🇵🇹",t2:"UZB",f2:"🇺🇿"},
-  {id:"g042",d:"23 Jun",h:"17:00",t1:"ING",f1:"ING",t2:"GHA",f2:"🇬🇭"},
-  {id:"g043",d:"23 Jun",h:"20:00",t1:"PAN",f1:"🇵🇦",t2:"CRO",f2:"🇭🇷"},
-  {id:"g044",d:"23 Jun",h:"23:00",t1:"COL",f1:"🇨🇴",t2:"COD",f2:"🇨🇩"},
-  {id:"g045",d:"24 Jun",h:"16:00",t1:"SUI",f1:"🇨🇭",t2:"CAN",f2:"🇨🇦"},
-  {id:"g046",d:"24 Jun",h:"16:00",t1:"BIH",f1:"🇧🇦",t2:"QAT",f2:"🇶🇦"},
-  {id:"g047",d:"24 Jun",h:"19:00",t1:"MAR",f1:"🇲🇦",t2:"HAI",f2:"🇭🇹"},
-  {id:"g048",d:"24 Jun",h:"19:00",t1:"ESC",f1:"ESC",t2:"BRA",f2:"🇧🇷"},
-  {id:"g049",d:"24 Jun",h:"22:00",t1:"SUD",f1:"🇸🇩",t2:"KOR",f2:"🇰🇷"},
-  {id:"g050",d:"24 Jun",h:"22:00",t1:"CZE",f1:"🇨🇿",t2:"MEX",f2:"🇲🇽"},
-  {id:"g051",d:"25 Jun",h:"17:00",t1:"CUR",f1:"🇨🇼",t2:"CIV",f2:"🇨🇮"},
-  {id:"g052",d:"25 Jun",h:"17:00",t1:"ECU",f1:"🇪🇨",t2:"ALE",f2:"🇩🇪"},
-  {id:"g053",d:"25 Jun",h:"20:00",t1:"TUN",f1:"🇹🇳",t2:"NED",f2:"🇳🇱"},
-  {id:"g054",d:"25 Jun",h:"20:00",t1:"JAP",f1:"🇯🇵",t2:"SUE",f2:"🇸🇪"},
-  {id:"g055",d:"25 Jun",h:"23:00",t1:"TUR",f1:"🇹🇷",t2:"USA",f2:"🇺🇸"},
-  {id:"g056",d:"25 Jun",h:"23:00",t1:"PAR",f1:"🇵🇾",t2:"AUS",f2:"🇦🇺"},
-  {id:"g057",d:"26 Jun",h:"16:00",t1:"NOR",f1:"🇳🇴",t2:"FRA",f2:"🇫🇷"},
-  {id:"g058",d:"26 Jun",h:"16:00",t1:"SEN",f1:"🇸🇳",t2:"IRQ",f2:"🇮🇶"},
-  {id:"g059",d:"26 Jun",h:"21:00",t1:"CPV",f1:"🇨🇻",t2:"KSA",f2:"🇸🇦"},
-  {id:"g060",d:"26 Jun",h:"21:00",t1:"URU",f1:"🇺🇾",t2:"ESP",f2:"🇪🇸"},
-  {id:"g061",d:"26 Jun",h:"00:00",t1:"EGP",f1:"🇪🇬",t2:"IRN",f2:"🇮🇷"},
-  {id:"g062",d:"26 Jun",h:"00:00",t1:"NZL",f1:"🇳🇿",t2:"BEL",f2:"🇧🇪"},
-  {id:"g063",d:"27 Jun",h:"18:00",t1:"PAN",f1:"🇵🇦",t2:"ING",f2:"ING"},
-  {id:"g064",d:"27 Jun",h:"18:00",t1:"CRO",f1:"🇭🇷",t2:"GHA",f2:"🇬🇭"},
-  {id:"g065",d:"27 Jun",h:"20:30",t1:"COL",f1:"🇨🇴",t2:"POR",f2:"🇵🇹"},
-  {id:"g066",d:"27 Jun",h:"20:30",t1:"COD",f1:"🇨🇩",t2:"UZB",f2:"🇺🇿"},
-  {id:"g067",d:"27 Jun",h:"23:00",t1:"ALG",f1:"🇩🇿",t2:"AUS",f2:"🇦🇺"},
-  {id:"g068",d:"27 Jun",h:"23:00",t1:"JOR",f1:"🇯🇴",t2:"ARG",f2:"🇦🇷"}
+  // FASE DE GRUPOS
+  {id:"g001",fase:"Fase de Grupos",d:"13 Jun",h:"16:00",t1:"QAT",f1:"🇶🇦",t2:"SUI",f2:"🇨🇭"},
+  {id:"g002",fase:"Fase de Grupos",d:"13 Jun",h:"19:00",t1:"BRA",f1:"🇧🇷",t2:"MAR",f2:"🇲🇦"},
+  {id:"g003",fase:"Fase de Grupos",d:"13 Jun",h:"22:00",t1:"HAI",f1:"🇭🇹",t2:"ESC",f2:"🏴"},
+  {id:"g004",fase:"Fase de Grupos",d:"14 Jun",h:"01:00",t1:"AUS",f1:"🇦🇺",t2:"TUR",f2:"🇹🇷"},
+  {id:"g005",fase:"Fase de Grupos",d:"14 Jun",h:"14:00",t1:"ALE",f1:"🇩🇪",t2:"CUR",f2:"🇨🇼"},
+  {id:"g006",fase:"Fase de Grupos",d:"14 Jun",h:"17:00",t1:"NED",f1:"🇳🇱",t2:"JAP",f2:"🇯🇵"},
+  {id:"g007",fase:"Fase de Grupos",d:"14 Jun",h:"20:00",t1:"CIV",f1:"🇨🇮",t2:"ECU",f2:"🇪🇨"},
+  {id:"g008",fase:"Fase de Grupos",d:"14 Jun",h:"23:00",t1:"SUE",f1:"🇸🇪",t2:"TUN",f2:"🇹🇳"},
+  {id:"g009",fase:"Fase de Grupos",d:"15 Jun",h:"13:00",t1:"ESP",f1:"🇪🇸",t2:"CPV",f2:"🇨🇻"},
+  {id:"g010",fase:"Fase de Grupos",d:"15 Jun",h:"16:00",t1:"BEL",f1:"🇧🇪",t2:"EGP",f2:"🇪🇬"},
+  {id:"g011",fase:"Fase de Grupos",d:"15 Jun",h:"19:00",t1:"KSA",f1:"🇸🇦",t2:"URU",f2:"🇺🇾"},
+  {id:"g012",fase:"Fase de Grupos",d:"15 Jun",h:"22:00",t1:"IRN",f1:"🇮🇷",t2:"NZL",f2:"🇳🇿"},
+  {id:"g013",fase:"Fase de Grupos",d:"16 Jun",h:"16:00",t1:"FRA",f1:"🇫🇷",t2:"SEN",f2:"🇸🇳"},
+  {id:"g014",fase:"Fase de Grupos",d:"16 Jun",h:"19:00",t1:"IRQ",f1:"🇮🇶",t2:"NOR",f2:"🇳🇴"},
+  {id:"g015",fase:"Fase de Grupos",d:"16 Jun",h:"22:00",t1:"ARG",f1:"🇦🇷",t2:"ALG",f2:"🇩🇿"},
+  {id:"g016",fase:"Fase de Grupos",d:"17 Jun",h:"01:00",t1:"AUS",f1:"🇦🇺",t2:"JOR",f2:"🇯🇴"},
+  {id:"g017",fase:"Fase de Grupos",d:"17 Jun",h:"14:00",t1:"POR",f1:"🇵🇹",t2:"COD",f2:"🇨🇩"},
+  {id:"g018",fase:"Fase de Grupos",d:"17 Jun",h:"17:00",t1:"ING",f1:"🏴",t2:"CRO",f2:"🇭🇷"},
+  {id:"g019",fase:"Fase de Grupos",d:"17 Jun",h:"20:00",t1:"GHA",f1:"🇬🇭",t2:"PAN",f2:"🇵🇦"},
+  {id:"g020",fase:"Fase de Grupos",d:"17 Jun",h:"23:00",t1:"UZB",f1:"🇺🇿",t2:"COL",f2:"🇨🇴"},
+  {id:"g021",fase:"Fase de Grupos",d:"18 Jun",h:"13:00",t1:"CZE",f1:"🇨🇿",t2:"SUD",f2:"🇸🇩"},
+  {id:"g022",fase:"Fase de Grupos",d:"18 Jun",h:"16:00",t1:"SUI",f1:"🇨🇭",t2:"BIH",f2:"🇧🇦"},
+  {id:"g023",fase:"Fase de Grupos",d:"18 Jun",h:"19:00",t1:"CAN",f1:"🇨🇦",t2:"QAT",f2:"🇶🇦"},
+  {id:"g024",fase:"Fase de Grupos",d:"18 Jun",h:"22:00",t1:"MEX",f1:"🇲🇽",t2:"KOR",f2:"🇰🇷"},
+  {id:"g025",fase:"Fase de Grupos",d:"19 Jun",h:"16:00",t1:"USA",f1:"🇺🇸",t2:"AUS",f2:"🇦🇺"},
+  {id:"g026",fase:"Fase de Grupos",d:"19 Jun",h:"19:00",t1:"ESC",f1:"🏴",t2:"MAR",f2:"🇲🇦"},
+  {id:"g027",fase:"Fase de Grupos",d:"19 Jun",h:"21:30",t1:"BRA",f1:"🇧🇷",t2:"HAI",f2:"🇭🇹"},
+  {id:"g028",fase:"Fase de Grupos",d:"19 Jun",h:"00:00",t1:"TUR",f1:"🇹🇷",t2:"PAR",f2:"🇵🇾"},
+  {id:"g029",fase:"Fase de Grupos",d:"20 Jun",h:"14:00",t1:"NED",f1:"🇳🇱",t2:"SUE",f2:"🇸🇪"},
+  {id:"g030",fase:"Fase de Grupos",d:"20 Jun",h:"17:00",t1:"ALE",f1:"🇩🇪",t2:"CIV",f2:"🇨🇮"},
+  {id:"g031",fase:"Fase de Grupos",d:"20 Jun",h:"21:00",t1:"ECU",f1:"🇪🇨",t2:"CUR",f2:"🇨🇼"},
+  {id:"g032",fase:"Fase de Grupos",d:"21 Jun",h:"01:00",t1:"TUN",f1:"🇹🇳",t2:"JAP",f2:"🇯🇵"},
+  {id:"g033",fase:"Fase de Grupos",d:"21 Jun",h:"13:00",t1:"ESP",f1:"🇪🇸",t2:"KSA",f2:"🇸🇦"},
+  {id:"g034",fase:"Fase de Grupos",d:"21 Jun",h:"16:00",t1:"BEL",f1:"🇧🇪",t2:"IRN",f2:"🇮🇷"},
+  {id:"g035",fase:"Fase de Grupos",d:"21 Jun",h:"19:00",t1:"URU",f1:"🇺🇾",t2:"CPV",f2:"🇨🇻"},
+  {id:"g036",fase:"Fase de Grupos",d:"21 Jun",h:"22:00",t1:"NZL",f1:"🇳🇿",t2:"EGP",f2:"🇪🇬"},
+  {id:"g037",fase:"Fase de Grupos",d:"22 Jun",h:"14:00",t1:"ARG",f1:"🇦🇷",t2:"AUS",f2:"🇦🇺"},
+  {id:"g038",fase:"Fase de Grupos",d:"22 Jun",h:"18:00",t1:"FRA",f1:"🇫🇷",t2:"IRQ",f2:"🇮🇶"},
+  {id:"g039",fase:"Fase de Grupos",d:"22 Jun",h:"21:00",t1:"NOR",f1:"🇳🇴",t2:"SEN",f2:"🇸🇳"},
+  {id:"g040",fase:"Fase de Grupos",d:"22 Jun",h:"00:00",t1:"JOR",f1:"🇯🇴",t2:"ALG",f2:"🇩🇿"},
+  {id:"g041",fase:"Fase de Grupos",d:"23 Jun",h:"14:00",t1:"POR",f1:"🇵🇹",t2:"UZB",f2:"🇺🇿"},
+  {id:"g042",fase:"Fase de Grupos",d:"23 Jun",h:"17:00",t1:"ING",f1:"🏴",t2:"GHA",f2:"🇬🇭"},
+  {id:"g043",fase:"Fase de Grupos",d:"23 Jun",h:"20:00",t1:"PAN",f1:"🇵🇦",t2:"CRO",f2:"🇭🇷"},
+  {id:"g044",fase:"Fase de Grupos",d:"23 Jun",h:"23:00",t1:"COL",f1:"🇨🇴",t2:"COD",f2:"🇨🇩"},
+  {id:"g045",fase:"Fase de Grupos",d:"24 Jun",h:"16:00",t1:"SUI",f1:"🇨🇭",t2:"CAN",f2:"🇨🇦"},
+  {id:"g046",fase:"Fase de Grupos",d:"24 Jun",h:"16:00",t1:"BIH",f1:"🇧🇦",t2:"QAT",f2:"🇶🇦"},
+  {id:"g047",fase:"Fase de Grupos",d:"24 Jun",h:"19:00",t1:"MAR",f1:"🇲🇦",t2:"HAI",f2:"🇭🇹"},
+  {id:"g048",fase:"Fase de Grupos",d:"24 Jun",h:"19:00",t1:"ESC",f1:"🏴",t2:"BRA",f2:"🇧🇷"},
+  {id:"g049",fase:"Fase de Grupos",d:"24 Jun",h:"22:00",t1:"SUD",f1:"🇸🇩",t2:"KOR",f2:"🇰🇷"},
+  {id:"g050",fase:"Fase de Grupos",d:"24 Jun",h:"22:00",t1:"CZE",f1:"🇨🇿",t2:"MEX",f2:"🇲🇽"},
+  {id:"g051",fase:"Fase de Grupos",d:"25 Jun",h:"17:00",t1:"CUR",f1:"🇨🇼",t2:"CIV",f2:"🇨🇮"},
+  {id:"g052",fase:"Fase de Grupos",d:"25 Jun",h:"17:00",t1:"ECU",f1:"🇪🇨",t2:"ALE",f2:"🇩🇪"},
+  {id:"g053",fase:"Fase de Grupos",d:"25 Jun",h:"20:00",t1:"TUN",f1:"🇹🇳",t2:"NED",f2:"🇳🇱"},
+  {id:"g054",fase:"Fase de Grupos",d:"25 Jun",h:"20:00",t1:"JAP",f1:"🇯🇵",t2:"SUE",f2:"🇸🇪"},
+  {id:"g055",fase:"Fase de Grupos",d:"25 Jun",h:"23:00",t1:"TUR",f1:"🇹🇷",t2:"USA",f2:"🇺🇸"},
+  {id:"g056",fase:"Fase de Grupos",d:"25 Jun",h:"23:00",t1:"PAR",f1:"🇵🇾",t2:"AUS",f2:"🇦🇺"},
+  {id:"g057",fase:"Fase de Grupos",d:"26 Jun",h:"16:00",t1:"NOR",f1:"🇳🇴",t2:"FRA",f2:"🇫🇷"},
+  {id:"g058",fase:"Fase de Grupos",d:"26 Jun",h:"16:00",t1:"SEN",f1:"🇸🇳",t2:"IRQ",f2:"🇮🇶"},
+  {id:"g059",fase:"Fase de Grupos",d:"26 Jun",h:"21:00",t1:"CPV",f1:"🇨🇻",t2:"KSA",f2:"🇸🇦"},
+  {id:"g060",fase:"Fase de Grupos",d:"26 Jun",h:"21:00",t1:"URU",f1:"🇺🇾",t2:"ESP",f2:"🇪🇸"},
+  {id:"g061",fase:"Fase de Grupos",d:"26 Jun",h:"00:00",t1:"EGP",f1:"🇪🇬",t2:"IRN",f2:"🇮🇷"},
+  {id:"g062",fase:"Fase de Grupos",d:"26 Jun",h:"00:00",t1:"NZL",f1:"🇳🇿",t2:"BEL",f2:"🇧🇪"},
+  {id:"g063",fase:"Fase de Grupos",d:"27 Jun",h:"18:00",t1:"PAN",f1:"🇵🇦",t2:"ING",f2:"🏴"},
+  {id:"g064",fase:"Fase de Grupos",d:"27 Jun",h:"18:00",t1:"CRO",f1:"🇭🇷",t2:"GHA",f2:"🇬🇭"},
+  {id:"g065",fase:"Fase de Grupos",d:"27 Jun",h:"20:30",t1:"COL",f1:"🇨🇴",t2:"POR",f2:"🇵🇹"},
+  {id:"g066",fase:"Fase de Grupos",d:"27 Jun",h:"20:30",t1:"COD",f1:"🇨🇩",t2:"UZB",f2:"🇺🇿"},
+  {id:"g067",fase:"Fase de Grupos",d:"27 Jun",h:"23:00",t1:"ALG",f1:"🇩🇿",t2:"AUS",f2:"🇦🇺"},
+  {id:"g068",fase:"Fase de Grupos",d:"27 Jun",h:"23:00",t1:"JOR",f1:"🇯🇴",t2:"ARG",f2:"🇦🇷"},
+  // ROUND OF 32
+  {id:"r001",fase:"Round of 32",d:"28 Jun",h:"16:00",t1:"AFS",f1:"🇿🇦",t2:"CAN",f2:"🇨🇦"},
+  {id:"r002",fase:"Round of 32",d:"29 Jun",h:"14:00",t1:"BRA",f1:"🇧🇷",t2:"JAP",f2:"🇯🇵"},
+  {id:"r003",fase:"Round of 32",d:"29 Jun",h:"17:30",t1:"ALE",f1:"🇩🇪",t2:"PAR",f2:"🇵🇾"},
+  {id:"r004",fase:"Round of 32",d:"29 Jun",h:"22:00",t1:"NED",f1:"🇳🇱",t2:"MAR",f2:"🇲🇦"},
+  {id:"r005",fase:"Round of 32",d:"30 Jun",h:"14:00",t1:"CIV",f1:"🇨🇮",t2:"NOR",f2:"🇳🇴"},
+  {id:"r006",fase:"Round of 32",d:"30 Jun",h:"18:00",t1:"FRA",f1:"🇫🇷",t2:"SUE",f2:"🇸🇪"},
+  {id:"r007",fase:"Round of 32",d:"30 Jun",h:"23:00",t1:"MEX",f1:"🇲🇽",t2:"ECU",f2:"🇪🇨"},
+  {id:"r008",fase:"Round of 32",d:"01 Jul",h:"13:00",t1:"ING",f1:"🏴",t2:"COD",f2:"🇨🇩"},
+  {id:"r009",fase:"Round of 32",d:"01 Jul",h:"17:00",t1:"BEL",f1:"🇧🇪",t2:"SEN",f2:"🇸🇳"},
+  {id:"r010",fase:"Round of 32",d:"01 Jul",h:"21:00",t1:"USA",f1:"🇺🇸",t2:"BIH",f2:"🇧🇦"},
+  {id:"r011",fase:"Round of 32",d:"02 Jul",h:"16:00",t1:"ESP",f1:"🇪🇸",t2:"AUT",f2:"🇦🇹"},
+  {id:"r012",fase:"Round of 32",d:"02 Jul",h:"20:00",t1:"POR",f1:"🇵🇹",t2:"CRO",f2:"🇭🇷"},
+  {id:"r013",fase:"Round of 32",d:"03 Jul",h:"00:00",t1:"SUI",f1:"🇨🇭",t2:"ALG",f2:"🇩🇿"},
+  {id:"r014",fase:"Round of 32",d:"03 Jul",h:"15:00",t1:"AUS",f1:"🇦🇺",t2:"EGP",f2:"🇪🇬"},
+  {id:"r015",fase:"Round of 32",d:"03 Jul",h:"19:00",t1:"ARG",f1:"🇦🇷",t2:"CPV",f2:"🇨🇻"},
+  {id:"r016",fase:"Round of 32",d:"03 Jul",h:"22:30",t1:"COL",f1:"🇨🇴",t2:"GHA",f2:"🇬🇭"}
 ];
 
 var player = "";
@@ -195,13 +213,7 @@ var resultados = {};
 
 window.onload = function() {
   document.getElementById("inp-player").onkeypress = function(e){ if(e.key==="Enter") entrar(); };
-  mostrarLogin();
 };
-
-function mostrarLogin(){
-  document.getElementById("login").style.display="";
-  document.getElementById("app").style.display="none";
-}
 
 function entrar(){
   var v = document.getElementById("inp-player").value.trim();
@@ -217,7 +229,8 @@ function entrar(){
 function sair(){
   player=""; apostas={}; comentarios={};
   document.getElementById("badge").style.display="none";
-  mostrarLogin();
+  document.getElementById("login").style.display="";
+  document.getElementById("app").style.display="none";
 }
 
 function post(data, cb){
@@ -251,35 +264,57 @@ function carregar(){
   });
 }
 
+function toggleFase(id){
+  var el = document.getElementById(id);
+  var btn = document.getElementById(id+"-btn");
+  if(el.classList.contains("collapsed")){ el.classList.remove("collapsed"); btn.textContent="▲"; }
+  else { el.classList.add("collapsed"); btn.textContent="▼"; }
+}
+
 function renderJogos(){
   var c = document.getElementById("jogos");
   var html = "";
+  var curFase = "";
+  var faseId = "";
+  var faseIdx = 0;
   var curD = "";
   for(var i=0;i<JOGOS.length;i++){
     var j = JOGOS[i];
+    if(j.fase !== curFase){
+      if(curFase !== "") html += "</div>";
+      curFase = j.fase;
+      curD = "";
+      faseIdx++;
+      faseId = "fase"+faseIdx;
+      var collapsed = j.fase === "Fase de Grupos" ? " collapsed" : "";
+      var arrow = j.fase === "Fase de Grupos" ? "▼" : "▲";
+      html += '<div class="sec fase" onclick="toggleFase(\''+faseId+'\')">'+j.fase+' <span id="'+faseId+'-btn">'+arrow+'</span></div>';
+      html += '<div class="fase-content'+collapsed+'" id="'+faseId+'">';
+    }
     if(j.d !== curD){ curD=j.d; html+='<div class="sec">'+j.d+'</div>'; }
     var ap = apostas[j.id];
     var res = resultados[j.id];
     var com = comentarios[j.id]||"";
     var v1 = ap ? ap.gols1 : "";
     var v2 = ap ? ap.gols2 : "";
-    var resHtml = res!==undefined ? '<span class="res-real">('+res.gols1+'–'+res.gols2+')</span>' : "";
+    var resHtml = res!==undefined ? '<span class="res-real">('+res.gols1+'-'+res.gols2+')</span>' : "";
     var comHtml = com
       ? '<span class="ctxt">💬 '+com+'</span><button class="btn-ok" onclick="editCom(\''+j.id+'\')">editar</button>'
-      : '<input class="ci" id="ci-'+j.id+'" placeholder="deixa um comentário... 💬" maxlength="80" /><button class="btn-ok" id="cob-'+j.id+'" onclick="saveCom(\''+j.id+'\')">ok</button>';
+      : '<input class="ci" id="ci-'+j.id+'" placeholder="deixa um comentário... 💬" maxlength="80" /><button class="btn-ok" onclick="saveCom(\''+j.id+'\')">ok</button>';
     html += '<div class="card'+(ap?" done":"")+'" id="c-'+j.id+'">'
       +'<div class="card-top">'
       +'<div class="meta"><div class="meta-d">'+j.d+'</div><div class="meta-h">'+j.h+'</div></div>'
       +'<div class="times">'+j.f1+' '+j.t1+' <span class="vs">vs</span> '+j.t2+' '+j.f2+resHtml+'</div>'
       +'<div class="aposta">'
-      +'<input class="si" type="number" min="0" max="20" placeholder="–" id="i1-'+j.id+'" value="'+v1+'" oninput="dirty(\''+j.id+'\')" />'
-      +'<span class="sep">×</span>'
-      +'<input class="si" type="number" min="0" max="20" placeholder="–" id="i2-'+j.id+'" value="'+v2+'" oninput="dirty(\''+j.id+'\')" />'
+      +'<input class="si" type="number" min="0" max="20" placeholder="-" id="i1-'+j.id+'" value="'+v1+'" oninput="dirty(\''+j.id+'\')" />'
+      +'<span class="sep">x</span>'
+      +'<input class="si" type="number" min="0" max="20" placeholder="-" id="i2-'+j.id+'" value="'+v2+'" oninput="dirty(\''+j.id+'\')" />'
       +'<button class="btn-ap'+(ap?" saved":"")+'" id="b-'+j.id+'" onclick="saveAp(\''+j.id+'\')">'+( ap?"✓ Salvo":"Apostar")+'</button>'
       +'</div></div>'
       +'<div class="comment-row" id="cr-'+j.id+'">'+comHtml+'</div>'
       +'</div>';
   }
+  html += "</div>";
   c.innerHTML = html;
   for(var k=0;k<JOGOS.length;k++){
     (function(id){
