@@ -313,7 +313,7 @@ var FASES = [
     ]
   },
   {
-    id:"oitavas", nome:"Oitavas de Final", collapsed:false,
+    id:"oitavas", nome:"Oitavas de Final", collapsed:true,
     jogos:[
       {id:"o001",d:"04 Jul",h:"14:00",t1:"CAN",f1:"🇨🇦",t2:"MAR",f2:"🇲🇦"},
       {id:"o002",d:"04 Jul",h:"18:00",t1:"PAR",f1:"🇵🇾",t2:"FRA",f2:"🇫🇷"},
@@ -323,6 +323,15 @@ var FASES = [
       {id:"o006",d:"06 Jul",h:"21:00",t1:"USA",f1:"🇺🇸",t2:"BEL",f2:"🇧🇪"},
       {id:"o007",d:"07 Jul",h:"13:00",t1:"ARG",f1:"🇦🇷",t2:"EGP",f2:"🇪🇬"},
       {id:"o008",d:"07 Jul",h:"17:00",t1:"SUI",f1:"🇨🇭",t2:"COL",f2:"🇨🇴"}
+    ]
+  },
+  {
+    id:"quartas", nome:"Quartas de Final", collapsed:false,
+    jogos:[
+      {id:"q001",d:"09 Jul",h:"17:00",t1:"MAR",f1:"🇲🇦",t2:"FRA",f2:"🇫🇷"},
+      {id:"q002",d:"11 Jul",h:"18:00",t1:"NOR",f1:"🇳🇴",t2:"ING",f2:"🏴"},
+      {id:"q003",d:"10 Jul",h:"16:00",t1:"ESP",f1:"🇪🇸",t2:"BEL",f2:"🇧🇪"},
+      {id:"q004",d:"11 Jul",h:"22:00",t1:"ARG",f1:"🇦🇷",t2:"SUI",f2:"🇨🇭"}
     ]
   }
 ];
@@ -340,10 +349,10 @@ var BRACKET = {
     {id:"o008",t1:"SUI",f1:"🇨🇭",t2:"COL",f2:"🇨🇴",d:"07 Jul",h:"17:00"}
   ],
   quartas:[
-    {id:"q001",t1:"QF1a",f1:"",t2:"QF1b",f2:"",d:"TBD",h:""},
-    {id:"q002",t1:"QF2a",f1:"",t2:"QF2b",f2:"",d:"TBD",h:""},
-    {id:"q003",t1:"QF3a",f1:"",t2:"QF3b",f2:"",d:"TBD",h:""},
-    {id:"q004",t1:"QF4a",f1:"",t2:"QF4b",f2:"",d:"TBD",h:""}
+    {id:"q001",t1:"MAR",f1:"🇲🇦",t2:"FRA",f2:"🇫🇷",d:"09 Jul",h:"17:00"},
+    {id:"q002",t1:"NOR",f1:"🇳🇴",t2:"ING",f2:"🏴",d:"11 Jul",h:"18:00"},
+    {id:"q003",t1:"ESP",f1:"🇪🇸",t2:"BEL",f2:"🇧🇪",d:"10 Jul",h:"16:00"},
+    {id:"q004",t1:"ARG",f1:"🇦🇷",t2:"SUI",f2:"🇨🇭",d:"11 Jul",h:"22:00"}
   ],
   semi:[
     {id:"s001",t1:"SF1a",f1:"",t2:"SF1b",f2:"",d:"TBD",h:""},
