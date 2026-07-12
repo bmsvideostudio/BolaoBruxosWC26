@@ -326,12 +326,19 @@ var FASES = [
     ]
   },
   {
-    id:"quartas", nome:"Quartas de Final", collapsed:false,
+    id:"quartas", nome:"Quartas de Final", collapsed:true,
     jogos:[
       {id:"q001",d:"09 Jul",h:"17:00",t1:"MAR",f1:"🇲🇦",t2:"FRA",f2:"🇫🇷"},
       {id:"q002",d:"11 Jul",h:"18:00",t1:"NOR",f1:"🇳🇴",t2:"ING",f2:"🏴"},
       {id:"q003",d:"10 Jul",h:"16:00",t1:"ESP",f1:"🇪🇸",t2:"BEL",f2:"🇧🇪"},
       {id:"q004",d:"11 Jul",h:"22:00",t1:"ARG",f1:"🇦🇷",t2:"SUI",f2:"🇨🇭"}
+    ]
+  },
+  {
+    id:"semis", nome:"Semifinais", collapsed:false,
+    jogos:[
+      {id:"s001",d:"14 Jul",h:"16:00",t1:"FRA",f1:"🇫🇷",t2:"ESP",f2:"🇪🇸"},
+      {id:"s002",d:"15 Jul",h:"16:00",t1:"ING",f1:"🏴",t2:"ARG",f2:"🇦🇷"}
     ]
   }
 ];
@@ -355,11 +362,11 @@ var BRACKET = {
     {id:"q004",t1:"ARG",f1:"🇦🇷",t2:"SUI",f2:"🇨🇭",d:"11 Jul",h:"22:00"}
   ],
   semi:[
-    {id:"s001",t1:"SF1a",f1:"",t2:"SF1b",f2:"",d:"TBD",h:""},
-    {id:"s002",t1:"SF2a",f1:"",t2:"SF2b",f2:"",d:"TBD",h:""}
+    {id:"s001",t1:"FRA",f1:"🇫🇷",t2:"ESP",f2:"🇪🇸",d:"14 Jul",h:"16:00"},
+    {id:"s002",t1:"ING",f1:"🏴",t2:"ARG",f2:"🇦🇷",d:"15 Jul",h:"16:00"}
   ],
   final:[
-    {id:"f001",t1:"FIN1",f1:"",t2:"FIN2",f2:"",d:"TBD",h:""}
+    {id:"f001",t1:"FIN1",f1:"",t2:"FIN2",f2:"",d:"19 Jul",h:"16:00"}
   ]
 };
 
